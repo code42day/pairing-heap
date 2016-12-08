@@ -1,0 +1,35 @@
+{
+  "name": "code42day-pairing-heap",
+  "version": "0.0.0",
+  "description": "Pairing heap implementaion",
+  "homepage": "https://en.wikipedia.org/wiki/Pairing_heap",
+  "author": {
+    "name": "Damian Krzeminski",
+    "email": "pirxpilot@code42day.com",
+    "url": "https://code42day.com"
+  },
+  "repository": "code42day/pairing-heap",
+  "license": "MIT",
+  "keywords": [
+    "pairing-heap",
+    "heap",
+    "sort",
+    "priority",
+    "queue",
+    "min-heap",
+    "max-heap"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "jshint": "^2.9.4",
+    "mocha": "^3.2.0",
+    "should": "^11.1.1"
+  },
+  "scripts": {
+    "test": "make check"
+  },
+  "files": [
+    "index.js",
+    "lib"
+  ]
+}
