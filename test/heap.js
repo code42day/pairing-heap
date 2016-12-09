@@ -10,22 +10,32 @@ function _(w) {
   };
 }
 
+function count(h) {
+  var c = 0;
+
+  function counter() {
+    c += 1;
+  }
+
+  h.visit(counter);
+  return c;
+}
+
 /* exported dump */
 
-function dump(node, prefix) {
-  prefix = prefix || '';
+function dump(h) {
+  function log(node, level) {
+    var prefix = '';
+    var suffix = node._.next ? '.' : '';
+    while(level--) {
+      prefix += ' ';
+    }
+    console.log(prefix, node.w, suffix);
+  }
 
-  if (prefix.length > 30) {
-    return;
-  }
-  console.log(prefix, node.w);
-  if (node._.subh) {
-    dump(node._.subh, prefix + '   ');
-  }
-  if(node._.next) {
-    dump(node._.next, prefix);
-  }
+  h.visit(log);
 }
+
 
 describe('heap', function() {
 
@@ -96,11 +106,9 @@ describe('heap', function() {
       // -3 0 1 5 6 6 18
       h.peek().should.have.property('w', -3);
 
-
       h.pop().should.have.property('w', -3);
       // 0 1 5 6 6 18
       h.peek().should.have.property('w', 0);
-
 
       h.pop().should.have.property('w', 0);
       // 1 5 6 6 18
@@ -159,11 +167,22 @@ describe('heap', function() {
         h.pop().should.have.property('w', item);
       });
     });
-
-
   });
 
   describe('remove', function() {
+    it('should work like pop if applied to root', function () {
+      var h = heap();
+      var items = [ 1, 3, 2 ].map(_);
+
+      items.forEach(h.push);
+
+      h.remove(items[0]);
+
+      count(h).should.eql(2);
+      h.peek().should.be.exactly(items[2]);
+    });
+
+
     it('should do remove items', function () {
       var h = heap();
 
@@ -174,19 +193,45 @@ describe('heap', function() {
       items.forEach(h.push);
 
       h.size().should.eql(items.length);
+      count(h).should.eql(h.size());
+
       h.peek().should.have.property('w', -30);
+
 
       items.forEach(function(item, i) {
 
         h.remove(item);
-
         h.size().should.eql(tops.length - i, 'iteration: ' + i);
+        count(h).should.eql(h.size(), 'iteration: ' + i);
+
         if (h.size()) {
           h.peek().should.have.property('w', tops[i], 'iteration: ' + i);
         }
 
       });
     });
+
+
+    it('should remove items from large heaps', function () {
+      var h = heap();
+      var items = [];
+
+      for (var i = 0; i < 500; i++) {
+        items.push(Math.floor(Math.random() * 1000));
+      }
+
+      var nodes = items.map(_);
+
+      nodes.forEach(h.push);
+
+      nodes.forEach(function(node, i) {
+        h.remove(node);
+        if (count(h) !== h.size()) {
+          count(h).should.eql(h.size(), 'iteration: ' + i);
+        }
+      });
+    });
+
 
   });
 
