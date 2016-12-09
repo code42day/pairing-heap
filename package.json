@@ -1,6 +1,6 @@
 {
   "name": "code42day-pairing-heap",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Pairing heap implementaion",
   "homepage": "https://en.wikipedia.org/wiki/Pairing_heap",
   "author": {
