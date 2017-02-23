@@ -1,6 +1,6 @@
 {
   "name": "fast-pairing-heap",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pairing heap implementaion",
   "homepage": "https://en.wikipedia.org/wiki/Pairing_heap",
   "author": {
